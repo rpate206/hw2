@@ -1,52 +1,71 @@
-import { useState } from "react"
+import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
-export default function CreateToDo ({user, ListToDo, setListToDo}) {
-    
-    const [ title, setTitle ] = useState('')
-    const [ description, setDescription ] = useState('')
+export default function CreateToDo({ user, ListToDo, dispatch }) {
+  // stateHook for Title entered by user
+  const [title, setTitle] = useState("");
 
-    function handleTitle(event) {
-        setTitle(event.target.value)
-    }
+  // stateHook for Description entered by user
+  const [description, setDescription] = useState("");
 
-    function handleDescription(event) {
-        setDescription(event.target.value)
-    }
-    
-    return (
-         <form onSubmit={e => {
-            e.preventDefault(); 
-            // create new ToDoItem
-            const newToDoItem = {
-                title, 
-                description, 
-                author: user, 
-                dateCreated: new Date().toString(), 
-                completed: false, 
-                dateCompleted: "", 
-            }
+  // handler function for title input
+  function handleTitle(event) {
+    setTitle(event.target.value);
+  }
 
-            // pre-pend the new ToDoItem to the front of the current ListToDo (To Do List array)
-            setListToDo([...ListToDo, newToDoItem])
-        }}>
-            <br />
-            <br />
-            <div>Author: <b>{user}</b></div>
-            <br />
-            <div>
-                <label htmlFor="create-title">Title:</label>
-                <input type="text" value={title} onChange={handleTitle} name="create-title" id="create-title" />
-            </div>
-            <br />
-            <div>
-                <label htmlFor="create-description">Description:</label>
-                <input type="text" value={description} onChange={handleDescription} name="create-description" id="create-description" />
-            </div>
-            <br />
-            
-            <input type="submit" value="Create" disabled={title.length === 0}/>
-            <br />
-            <br />
-        </form>
-    )
+  // handler fuNCtion for description input
+  function handleDescription(event) {
+    setDescription(event.target.value);
+  }
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        dispatch({
+          type: "CREATE_TODO",
+          title,
+          description,
+          author: user,
+          dateCreated: new Date().toString(),
+          completed: false,
+          dateCompleted: "",
+          id: uuidv4(),
+        });
+      }}
+    >
+      <br />
+      <br />
+      <div>
+        Author: <b>{user}</b>
+      </div>
+      <br />
+      <div>
+        <label htmlFor="create-title">Title:</label>
+        <input
+          type="text"
+          value={title}
+          onChange={handleTitle}
+          name="create-title"
+          id="create-title"
+        />
+      </div>
+      <br />
+      <div>
+        <label htmlFor="create-description">Description:</label>
+        <input
+          type="text"
+          value={description}
+          onChange={handleDescription}
+          name="create-description"
+          id="create-description"
+        />
+      </div>
+      <br />
+
+      <input type="submit" value="Create" disabled={title.length === 0} />
+      <br />
+      <br />
+    </form>
+  );
 }
