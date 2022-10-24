@@ -13,29 +13,41 @@ export default function ToDoItem({
   }
 
   return (
-    <div>
-      <h3>{title}</h3>
-      <div>{description}</div>
-      <br />
-      <i>
-        Written by <b>{author}</b>
-      </i>
-      <br />
-      <i>
-        Date Created : <b>{dateCreated}</b>
-      </i>
-      <br />
-      <input
-        type="checkbox"
-        onChange={handleComplete}
-        checked={completed}
-      ></input>
-      <i> Complete</i>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        dispatch({
+          type: "DELETE_TODO",
+          id,
+        });
+      }}
+    >
+      <div>
+        <h3>{title}</h3>
+        <div>{description}</div>
+        <br />
+        <i>
+          Written by <b>{author}</b>
+        </i>
+        <br />
+        <i>
+          Date Created : <b>{dateCreated}</b>
+        </i>
+        <br />
+        <input
+          type="checkbox"
+          onChange={handleComplete}
+          checked={completed}
+        ></input>
+        <i> Complete</i>
 
-      <br />
-      <i>
-        Date Completed : <b>{dateCompleted}</b>
-      </i>
-    </div>
+        <br />
+        <i>
+          Date Completed : <b>{dateCompleted}</b>
+        </i>
+        <br />
+        <input type="submit" value="Delete" />
+      </div>
+    </form>
   );
 }

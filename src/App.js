@@ -53,7 +53,13 @@ function todoReducer(state, action) {
       }
       return copyState;
 
-    //case "DELETE_TODO"
+    case "DELETE_TODO":
+      const copyDeleteState = state.filter((element) => {
+        return element.id !== action.id;
+      });
+
+      return copyDeleteState;
+
     default:
       return state;
   }
