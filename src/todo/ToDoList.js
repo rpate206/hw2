@@ -1,6 +1,6 @@
 import ToDoItem from "./ToDoItem";
 
-export default function ToDoList({ ListToDo = [] }) {
+export default function ToDoList({ ListToDo = [], dispatch }) {
   // ToDoList is accepting a list of ToDoItems (ToDoList array) as a prop
   // Then iterating over that 'ToDoList' array and creating ToDo Components dynamically
   return (
@@ -9,8 +9,8 @@ export default function ToDoList({ ListToDo = [] }) {
     //      Can explicitly write out the properties instead of using Spread Operator, but this isn't efficient for lots of properties
     // Key = database identifier (primary key) for each element in the list
     <div>
-      {ListToDo.map((t, i) => (
-        <ToDoItem {...t} key={t.id} />
+      {ListToDo.map((t) => (
+        <ToDoItem {...t} dispatch={dispatch} key={t.id} />
       ))}
     </div>
   );

@@ -36,7 +36,23 @@ function todoReducer(state, action) {
       };
       // pre-pend newToDoItem to copy of current ToDoList array
       return [...state, newToDoItem];
-    //case "TOGGLE_TODO"
+    case "TOGGLE_TODO":
+      let copyState = state.slice();
+
+      let element = copyState.find((element) => {
+        return element.id === action.id;
+      });
+
+      // update element's DateCompleted
+      if (!element.completed) {
+        element.completed = true;
+        element.dateCompleted = new Date().toString();
+      } else {
+        element.completed = false;
+        element.dateCompleted = "";
+      }
+      return copyState;
+
     //case "DELETE_TODO"
     default:
       return state;
@@ -72,7 +88,7 @@ function App() {
       {user && (
         <CreateToDo user={user} ListToDo={ListToDo} dispatch={dispatchToDos} />
       )}
-      <ToDoList ListToDo={ListToDo} />
+      <ToDoList ListToDo={ListToDo} dispatch={dispatchToDos} />
     </div>
   );
 }
