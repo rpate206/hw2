@@ -3,70 +3,15 @@ import UserBar from "./user/UserBar";
 import ToDoList from "./todo/ToDoList";
 import CreateToDo from "./todo/CreateToDo";
 import Header from "./Header";
-import { ThemeContext } from "./contexts";
+import { ThemeContext } from "./Contexts/ThemeContext";
+import { StateContext } from "./Contexts/StateContext";
 import ChangeTheme from "./Components/Theme/ChangeTheme";
+
+import appReducer from "./reducers";
 
 // import appReducter from reducer.js file
 // import userReducer from "./reducers";
 // import todoReducer from "./reducers";
-
-// create Reducer Function for user
-function userReducer(state, action) {
-  switch (action.type) {
-    case "LOGIN":
-    case "REGISTER":
-      return action.username;
-    case "LOGOUT":
-      return "";
-    default:
-      return state;
-  }
-}
-
-// create Reducer Function for posts
-function todoReducer(state, action) {
-  switch (action.type) {
-    case "CREATE_TODO":
-      // create new ToDoItem
-      const newToDoItem = {
-        title: action.title,
-        description: action.description,
-        author: action.author,
-        dateCreated: action.dateCreated,
-        completed: action.completed,
-        dateCompleted: action.dateCompleted,
-        id: action.id,
-      };
-      // pre-pend newToDoItem to copy of current ToDoList array
-      return [...state, newToDoItem];
-    case "TOGGLE_TODO":
-      let copyState = state.slice();
-
-      let element = copyState.find((element) => {
-        return element.id === action.id;
-      });
-
-      // update element's DateCompleted
-      if (!element.completed) {
-        element.completed = true;
-        element.dateCompleted = new Date().toString();
-      } else {
-        element.completed = false;
-        element.dateCompleted = "";
-      }
-      return copyState;
-
-    case "DELETE_TODO":
-      const copyDeleteState = state.filter((element) => {
-        return element.id !== action.id;
-      });
-
-      return copyDeleteState;
-
-    default:
-      return state;
-  }
-}
 
 function App() {
   // create state hook for user
@@ -76,25 +21,25 @@ function App() {
   //const [ ListToDo, setListToDo ] = useState([])
 
   // create reducerHook for user : initialState for user = empty string
-  const [user, dispatchUser] = useReducer(userReducer, "");
+  //const [user, dispatchUser] = useReducer(userReducer, "");
 
   // create reducerHook for posts : initialState for posts =
-  const [ListToDo, dispatchToDos] = useReducer(todoReducer, []);
+  //const [ListToDo, dispatchToDos] = useReducer(todoReducer, []);
 
-  // Replace user & ListToDo state hooks with single reducerHook :
-  // const [state, dispatch] = useReducer(appReducer, {
-  //   user: "",
-  //   ListToDo: [],
-  // });
+  //Replace user & ListToDo state hooks with single reducerHook :
+  const [state, dispatch] = useReducer(appReducer, {
+    user: "",
+    ListToDo: [],
+  });
 
   // if there is a value for 'user', title will be ' user's Blog', else (no value for user) title will be 'Blog'
   useEffect(() => {
-    if (user) {
-      document.title = `${user}’s To Do List`;
+    if (state.user) {
+      document.title = `${state.user}’s To Do List`;
     } else {
       document.title = "To Do List";
     }
-  }, [user]);
+  }, [state.user]);
 
   // state hook to dynamically change the theme
   const [theme, setTheme] = useState({
@@ -108,19 +53,15 @@ function App() {
     // Can only create todo if user is not false or not an empty string : only render CreatToDo when user is logged in
     // UserBar : pass in dispatchUser function
     <div>
-      <ThemeContext.Provider value={theme}>
-        <Header title="My To Do List" />
-        <ChangeTheme theme={theme} setTheme={setTheme} />
-        <UserBar user={user} dispatch={dispatchUser} />
-        {user && (
-          <CreateToDo
-            user={user}
-            ListToDo={ListToDo}
-            dispatch={dispatchToDos}
-          />
-        )}
-        <ToDoList ListToDo={ListToDo} dispatch={dispatchToDos} />
-      </ThemeContext.Provider>
+      <StateContext.Provider value={{ state, dispatch }}>
+        <ThemeContext.Provider value={theme}>
+          <Header title="My To Do List" />
+          <ChangeTheme theme={theme} setTheme={setTheme} />
+          <UserBar />
+          {state.user && <CreateToDo />}
+          <ToDoList />
+        </ThemeContext.Provider>
+      </StateContext.Provider>
     </div>
   );
 }

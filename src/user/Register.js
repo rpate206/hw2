@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { StateContext } from "../Contexts/StateContext";
 
-export default function Register({ dispatch }) {
+export default function Register() {
   // new State Hook : handles username input
   const [username, setUsername] = useState("");
 
@@ -9,6 +10,9 @@ export default function Register({ dispatch }) {
 
   // new State Hook : handles passwordRepeat input
   const [passwordRepeat, setPasswordRepeat] = useState("");
+
+  // destructure 'dispatch' from StateContext
+  const { dispatch } = useContext(StateContext);
 
   function handleUsername(event) {
     setUsername(event.target.value);

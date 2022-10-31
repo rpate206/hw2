@@ -1,4 +1,5 @@
-import { ThemeContext } from "../contexts";
+import { ThemeContext } from "../Contexts/ThemeContext";
+import { StateContext } from "../Contexts/StateContext";
 import { useContext } from "react";
 
 export default function ToDoItem({
@@ -9,11 +10,13 @@ export default function ToDoItem({
   completed,
   dateCompleted,
   id,
-  dispatch,
 }) {
   function handleComplete(event) {
     dispatch({ type: "TOGGLE_TODO", id });
   }
+
+  // get dispatch from StateContext
+  const { dispatch } = useContext(StateContext);
 
   // destructure 'secondaryColor' from ThemeContext
   const { secondaryColor } = useContext(ThemeContext);

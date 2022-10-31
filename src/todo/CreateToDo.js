@@ -1,12 +1,19 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { StateContext } from "../Contexts/StateContext";
 
-export default function CreateToDo({ user, ListToDo, dispatch }) {
+export default function CreateToDo() {
   // stateHook for Title entered by user
   const [title, setTitle] = useState("");
 
   // stateHook for Description entered by user
   const [description, setDescription] = useState("");
+
+  // destructure state and dispatch from StateContext
+  const { state, dispatch } = useContext(StateContext);
+
+  // destructure user from state
+  const { user } = state;
 
   // handler function for title input
   function handleTitle(event) {

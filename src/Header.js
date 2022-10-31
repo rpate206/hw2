@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { ThemeContext } from "./contexts";
+import { ThemeContext } from "./Contexts/ThemeContext";
 
 const Header = ({ title }) => {
   const { primaryColor } = useContext(ThemeContext);

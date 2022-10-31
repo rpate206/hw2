@@ -1,4 +1,11 @@
-export default function Logout({ user, dispatch }) {
+import { useContext } from "react";
+import { StateContext } from "../Contexts/StateContext";
+
+export default function Logout() {
+  const { state, dispatch } = useContext(StateContext);
+
+  // destructure 'user' out of 'state'
+  const { user } = state;
   return (
     <form
       onSubmit={(e) => {
