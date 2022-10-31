@@ -1,7 +1,10 @@
-import { useReducer } from "react";
+import { useReducer, useEffect, useState } from "react";
 import UserBar from "./user/UserBar";
 import ToDoList from "./todo/ToDoList";
 import CreateToDo from "./todo/CreateToDo";
+import Header from "./Header";
+import { ThemeContext } from "./contexts";
+import ChangeTheme from "./Components/Theme/ChangeTheme";
 
 // import appReducter from reducer.js file
 // import userReducer from "./reducers";
@@ -84,17 +87,40 @@ function App() {
   //   ListToDo: [],
   // });
 
+  // if there is a value for 'user', title will be ' user's Blog', else (no value for user) title will be 'Blog'
+  useEffect(() => {
+    if (user) {
+      document.title = `${user}’s To Do List`;
+    } else {
+      document.title = "To Do List";
+    }
+  }, [user]);
+
+  // state hook to dynamically change the theme
+  const [theme, setTheme] = useState({
+    primaryColor: "deepskyblue",
+    secondaryColor: "coral",
+  });
+
   return (
     // Need parent JSX component when trying to render more than 1 component (UserBar & ToDoList)
     // Need to wrap components in a div tag
     // Can only create todo if user is not false or not an empty string : only render CreatToDo when user is logged in
     // UserBar : pass in dispatchUser function
     <div>
-      <UserBar user={user} dispatch={dispatchUser} />
-      {user && (
-        <CreateToDo user={user} ListToDo={ListToDo} dispatch={dispatchToDos} />
-      )}
-      <ToDoList ListToDo={ListToDo} dispatch={dispatchToDos} />
+      <ThemeContext.Provider value={theme}>
+        <Header title="My To Do List" />
+        <ChangeTheme theme={theme} setTheme={setTheme} />
+        <UserBar user={user} dispatch={dispatchUser} />
+        {user && (
+          <CreateToDo
+            user={user}
+            ListToDo={ListToDo}
+            dispatch={dispatchToDos}
+          />
+        )}
+        <ToDoList ListToDo={ListToDo} dispatch={dispatchToDos} />
+      </ThemeContext.Provider>
     </div>
   );
 }

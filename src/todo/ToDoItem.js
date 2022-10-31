@@ -1,3 +1,6 @@
+import { ThemeContext } from "../contexts";
+import { useContext } from "react";
+
 export default function ToDoItem({
   title,
   description,
@@ -12,6 +15,9 @@ export default function ToDoItem({
     dispatch({ type: "TOGGLE_TODO", id });
   }
 
+  // destructure 'secondaryColor' from ThemeContext
+  const { secondaryColor } = useContext(ThemeContext);
+
   return (
     <form
       onSubmit={(e) => {
@@ -23,7 +29,7 @@ export default function ToDoItem({
       }}
     >
       <div>
-        <h3>{title}</h3>
+        <h3 style={{ color: secondaryColor }}>{title}</h3>
         <div>{description}</div>
         <br />
         <i>
@@ -46,7 +52,7 @@ export default function ToDoItem({
           Date Completed : <b>{dateCompleted}</b>
         </i>
         <br />
-        <input type="submit" value="Delete" />
+        <button type="submit">Delete</button>
       </div>
     </form>
   );
