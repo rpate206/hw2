@@ -1,0 +1,54 @@
+{
+  "todoList": [
+    {
+      "id": 1,
+      "title": "portal",
+      "description": "Some content",
+      "author": "paul",
+      "dateCreated": "11.01.2022",
+      "completed": false,
+      "dateCompleted": ""
+    },
+    {
+      "title": "Some old todo",
+      "description": "Some new content",
+      "author": "guy",
+      "dateCreated": "11.02.2022",
+      "completed": false,
+      "dateCompleted": "",
+      "id": 3
+    },
+    {
+      "title": "A new todo",
+      "description": "Some new content",
+      "author": "dude",
+      "dateCreated": "11.03.2022",
+      "completed": false,
+      "dateCompleted": "",
+      "id": 4
+    },
+    {
+      "title": "Fifth to do",
+      "description": "do this next",
+      "author": "dog",
+      "dateCreated": "11.33.2022",
+      "completed": false,
+      "dateCompleted": "",
+      "id": 5
+    }
+  ],
+  "users": [
+    {
+      "email": "olivier@mail.com",
+      "password": "$2a$10$gCDOJj5pIy667mT2WW1Ha.Q.eJpQGMOHDCtUMbXtVxvn/iTwIVIpu",
+      "id": 1
+    }
+  ],
+  "themes": [
+    {
+      "id": 1,
+      "primaryColor": "deepskyblue",
+      "secondaryColor": "coral"
+    }
+  ]
+}

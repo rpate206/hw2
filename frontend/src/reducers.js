@@ -50,6 +50,8 @@ function todoReducer(state, action) {
       });
 
       return copyDeleteState;
+    case "FETCH_TODOS":
+      return action.todoList;
 
     default:
       return state;

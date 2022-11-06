@@ -3,12 +3,20 @@ import ReactDOM from "react-dom/client";
 
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { RequestProvider } from "react-request-hook";
+import axios from "axios";
+
+const axiosInstance = axios.create({
+  baseURL: "http://localhost:3000/api/",
+});
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // Had to comment out StrictMode to get the App from clicking the checkbox twice even when I clicked it once
   //<React.StrictMode>
-  <App />
+  <RequestProvider value={axiosInstance}>
+    <App />
+  </RequestProvider>
   //</React.StrictMode>
 );
 

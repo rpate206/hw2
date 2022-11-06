@@ -6,6 +6,7 @@ import Header from "./Header";
 import { ThemeContext } from "./Contexts/ThemeContext";
 import { StateContext } from "./Contexts/StateContext";
 import ChangeTheme from "./Components/Theme/ChangeTheme";
+import { useResource } from "react-request-hook";
 
 import appReducer from "./reducers";
 
@@ -46,6 +47,36 @@ function App() {
     primaryColor: "deepskyblue",
     secondaryColor: "coral",
   });
+
+  // // issuing Fetch request for themes
+  // useEffect(() => {
+  //   fetch("/api/themes")
+  //     .then((result) => result.json())
+  //     .then((themes) => setTheme(themes));
+  // }, []);
+
+  // // issuing Fetch request for Todos
+  // useEffect(() => {
+  //   fetch("/api/todoList")
+  //     .then((result) => result.json())
+  //     .then((todoList) => dispatch({ type: "FETCH_TODOS", todoList }));
+  // }, []);
+
+  // define Resource hook for requesting TodoList
+  const [todoList, getToDoList] = useResource(() => ({
+    url: "/todoList",
+    method: "get",
+  }));
+
+  // Effect hook for requesting todoList when App component loads
+  useEffect(getToDoList, []);
+
+  // Effect hook for requesting todoList when todoList variable is updated
+  useEffect(() => {
+    if (todoList && todoList.data) {
+      dispatch({ type: "FETCH_TODOS", todoList: todoList.data });
+    }
+  }, [todoList]);
 
   return (
     // Need parent JSX component when trying to render more than 1 component (UserBar & ToDoList)
