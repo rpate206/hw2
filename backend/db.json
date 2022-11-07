@@ -35,6 +35,24 @@
       "completed": false,
       "dateCompleted": "",
       "id": 5
+    },
+    {
+      "title": "Seventh",
+      "description": "sdflk",
+      "author": "test",
+      "dateCreated": "Sun Nov 06 2022 16:16:04 GMT-0800 (Pacific Standard Time)",
+      "completed": false,
+      "dateCompleted": "",
+      "id": 6
+    },
+    {
+      "title": "Eighth",
+      "description": "sdlfk",
+      "author": "ssdf",
+      "dateCreated": "Sun Nov 06 2022 16:18:40 GMT-0800 (Pacific Standard Time)",
+      "completed": false,
+      "dateCompleted": "",
+      "id": 7
     }
   ],
   "users": [
@@ -42,6 +60,16 @@
       "email": "olivier@mail.com",
       "password": "$2a$10$gCDOJj5pIy667mT2WW1Ha.Q.eJpQGMOHDCtUMbXtVxvn/iTwIVIpu",
       "id": 1
+    },
+    {
+      "email": "test@test.net",
+      "password": "$2a$10$wEQx051QrVhNhvIQ6nOho.ugbSOrSWRiUwEOtsK9.jn.2KH4DmEeS",
+      "id": 2
+    },
+    {
+      "email": "test2@tester.net",
+      "password": "$2a$10$/bMptGqyxMHeC2KKFGapve7K/s/H1v1QL2rBr3l3nkRWK1iSVK2K6",
+      "id": 3
     }
   ],
   "themes": [

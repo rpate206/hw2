@@ -74,7 +74,7 @@ function App() {
   // Effect hook for requesting todoList when todoList variable is updated
   useEffect(() => {
     if (todoList && todoList.data) {
-      dispatch({ type: "FETCH_TODOS", todoList: todoList.data });
+      dispatch({ type: "FETCH_TODOS", todoList: todoList.data.reverse() });
     }
   }, [todoList]);
 

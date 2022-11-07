@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { StateContext } from "../Contexts/StateContext";
 import { useResource } from "react-request-hook";
@@ -45,10 +45,18 @@ export default function CreateToDo() {
     setTitle(event.target.value);
   }
 
-  // handler fuNCtion for description input
+  // handler function for description input
   function handleDescription(event) {
     setDescription(event.target.value);
   }
+
+  // use useEffect hook to check for server errors when Todo is created
+  useEffect(() => {
+    // verify each object exists when trying to find error message; won't throw exception is one of the objects isn't defined
+    if (post?.data?.error) {
+      alert(post.data.error.code);
+    }
+  });
 
   return (
     <form
