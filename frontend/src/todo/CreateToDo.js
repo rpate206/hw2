@@ -1,6 +1,7 @@
 import { useState, useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { StateContext } from "../Contexts/StateContext";
+import { useResource } from "react-request-hook";
 
 export default function CreateToDo() {
   // stateHook for Title entered by user
@@ -14,6 +15,30 @@ export default function CreateToDo() {
 
   // destructure user from state
   const { user } = state;
+
+  // define Resource hook for created post : destructure ‘title’, ‘content’, ‘author’ fields for ‘data’  to use. Resource hook will take ‘data’ and post it to server as json
+  // 'createPost' should be invoked when user clicks 'Create' button
+  const [post, createPost] = useResource(
+    ({
+      title,
+      description,
+      author,
+      dateCreated,
+      completed,
+      dateCompleted,
+    }) => ({
+      url: "/todoList",
+      method: "post",
+      data: {
+        title,
+        description,
+        author,
+        dateCreated,
+        completed,
+        dateCompleted,
+      },
+    })
+  );
 
   // handler function for title input
   function handleTitle(event) {
@@ -29,6 +54,15 @@ export default function CreateToDo() {
     <form
       onSubmit={(e) => {
         e.preventDefault();
+
+        createPost({
+          title,
+          description,
+          author: user,
+          dateCreated: new Date().toString(),
+          completed: false,
+          dateCompleted: "",
+        });
         dispatch({
           type: "CREATE_TODO",
           title,
