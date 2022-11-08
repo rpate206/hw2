@@ -1,6 +1,7 @@
 import { ThemeContext } from "../Contexts/ThemeContext";
 import { StateContext } from "../Contexts/StateContext";
 import { useContext } from "react";
+import { useResource } from "react-request-hook";
 
 export default function ToDoItem({
   title,
@@ -11,7 +12,24 @@ export default function ToDoItem({
   dateCompleted,
   id,
 }) {
+  // Resource hook for Toggle Todo
+  const [element, updateElement] = useResource((completed, dateCompleted) => ({
+    url: "/todoList/" + id,
+    method: "patch",
+    data: {
+      completed,
+      dateCompleted,
+    },
+  }));
+
   function handleComplete(event) {
+    completed = !completed;
+    if (dateCompleted === "") {
+      dateCompleted = new Date().toString();
+    } else {
+      dateCompleted = "";
+    }
+    updateElement(completed, dateCompleted);
     dispatch({ type: "TOGGLE_TODO", id });
   }
 

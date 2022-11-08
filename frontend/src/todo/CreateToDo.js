@@ -18,7 +18,7 @@ export default function CreateToDo() {
 
   // define Resource hook for created post : destructure ‘title’, ‘content’, ‘author’ fields for ‘data’  to use. Resource hook will take ‘data’ and post it to server as json
   // 'createPost' should be invoked when user clicks 'Create' button
-  const [post, createPost] = useResource(
+  const [todo, createTodo] = useResource(
     ({
       title,
       description,
@@ -53,33 +53,35 @@ export default function CreateToDo() {
   // use useEffect hook to check for server errors when Todo is created
   useEffect(() => {
     // verify each object exists when trying to find error message; won't throw exception is one of the objects isn't defined
-    if (post?.data?.error) {
-      alert(post.data.error.code);
+    if (todo?.data?.error) {
+      alert(todo.data.error.code);
     }
-  });
+    if (todo?.isLoading === false && todo?.data) {
+      dispatch({
+        type: "CREATE_TODO",
+        title: todo.data.title,
+        description: todo.data.title,
+        author: todo.data.author,
+        dateCreated: todo.data.dateCreated,
+        completed: todo.data.completed,
+        dateCompleted: todo.data.dateCompleted,
+        id: todo.data.id,
+      });
+    }
+  }, [todo]);
 
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
 
-        createPost({
+        createTodo({
           title,
           description,
           author: user,
           dateCreated: new Date().toString(),
           completed: false,
           dateCompleted: "",
-        });
-        dispatch({
-          type: "CREATE_TODO",
-          title,
-          description,
-          author: user,
-          dateCreated: new Date().toString(),
-          completed: false,
-          dateCompleted: "",
-          id: uuidv4(),
         });
       }}
     >
