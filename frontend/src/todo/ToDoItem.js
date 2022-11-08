@@ -33,6 +33,12 @@ export default function ToDoItem({
     dispatch({ type: "TOGGLE_TODO", id });
   }
 
+  // Resource hook for Delete Todo
+  const [todo, deleteTodo] = useResource(() => ({
+    url: "/todoList/" + id,
+    method: "delete",
+  }));
+
   // get dispatch from StateContext
   const { dispatch } = useContext(StateContext);
 
@@ -43,6 +49,7 @@ export default function ToDoItem({
     <form
       onSubmit={(e) => {
         e.preventDefault();
+        deleteTodo();
         dispatch({
           type: "DELETE_TODO",
           id,

@@ -26,33 +26,6 @@
       "completed": false,
       "dateCompleted": "",
       "id": 4
-    },
-    {
-      "title": "Sixth",
-      "description": "something",
-      "author": "test",
-      "dateCreated": "Sun Nov 06 2022 16:06:59 GMT-0800 (Pacific Standard Time)",
-      "completed": false,
-      "dateCompleted": "",
-      "id": 5
-    },
-    {
-      "title": "Seventh",
-      "description": "sdflk",
-      "author": "test",
-      "dateCreated": "Sun Nov 06 2022 16:16:04 GMT-0800 (Pacific Standard Time)",
-      "completed": false,
-      "dateCompleted": "",
-      "id": 6
-    },
-    {
-      "title": "Eighth",
-      "description": "sdlfk",
-      "author": "ssdf",
-      "dateCreated": "Sun Nov 06 2022 16:18:40 GMT-0800 (Pacific Standard Time)",
-      "completed": false,
-      "dateCompleted": "",
-      "id": 7
     }
   ],
   "users": [
