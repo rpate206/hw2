@@ -2,8 +2,9 @@ import { ThemeContext } from "../Contexts/ThemeContext";
 import { StateContext } from "../Contexts/StateContext";
 import { useContext } from "react";
 import { useResource } from "react-request-hook";
+import React from "react";
 
-export default function ToDoItem({
+function ToDoItem({
   title,
   description,
   author,
@@ -85,3 +86,6 @@ export default function ToDoItem({
     </form>
   );
 }
+
+
+export default React.memo(ToDoItem);

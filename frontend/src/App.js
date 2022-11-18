@@ -7,6 +7,7 @@ import { ThemeContext } from "./Contexts/ThemeContext";
 import { StateContext } from "./Contexts/StateContext";
 import ChangeTheme from "./Components/Theme/ChangeTheme";
 import { useResource } from "react-request-hook";
+import React from "react";
 
 import appReducer from "./reducers";
 
@@ -88,7 +89,9 @@ function App() {
         <ThemeContext.Provider value={theme}>
           <Header title="My To Do List" />
           <ChangeTheme theme={theme} setTheme={setTheme} />
-          <UserBar />
+          <React.Suspense fallback={"Loading..."}>
+            <UserBar />
+          </React.Suspense>
           {state.user && <CreateToDo />}
           <ToDoList />
         </ThemeContext.Provider>

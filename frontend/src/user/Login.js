@@ -31,15 +31,17 @@ export default function Login() {
 
   // Check if user logged in successfully with useEffect hook
   useEffect(() => {
-    if (user) {
-      // if response from server contains a user object..login successful
-      if (user?.data?.user) {
-        setLoginFailed(false);
-        dispatch({ type: "LOGIN", username: user.data.user.email });
-      } else {
-        setLoginFailed(true);
-      }
+    // if response from server contains a user object..login successful
+    if (user?.data?.user) {
+      setLoginFailed(false);
+      dispatch({ type: "LOGIN", username: user.data.user.email });
     }
+    
+    if (user?.error) {
+      console.log(user?.error);
+      setLoginFailed(true);
+    }
+    
   }, [user]);
 
   return (
