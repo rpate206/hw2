@@ -11,6 +11,7 @@ app.use(express.json()); // express.json() : parse request bodies containing jso
 app.use("/auth", require("./routes/auth"));
 
 // if express server gets any request on /todo --> redirect to routes/todo
+// could not use singular 'todo' -- kept returning 404 -- now using 'todos'
 app.use("/todos", require("./routes/todo"));
 
 module.exports = app;

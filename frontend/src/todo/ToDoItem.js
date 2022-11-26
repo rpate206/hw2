@@ -11,17 +11,24 @@ function ToDoItem({
   dateCreated,
   completed,
   dateCompleted,
-  id,
+  _id,
 }) {
   // Resource hook for Toggle Todo
   const [element, updateElement] = useResource((completed, dateCompleted) => ({
-    url: "/todoList/" + id,
+    url: "/todos/" + _id,
     method: "patch",
+    headers: { Authorization: `${state.user.access_token}` },
     data: {
       completed,
       dateCompleted,
     },
   }));
+
+  // get dispatch from StateContext
+  const { state, dispatch } = useContext(StateContext);
+
+  // destructure user from state
+  const { user } = state;
 
   function handleComplete(event) {
     completed = !completed;
@@ -31,17 +38,15 @@ function ToDoItem({
       dateCompleted = "";
     }
     updateElement(completed, dateCompleted);
-    dispatch({ type: "TOGGLE_TODO", id });
+    dispatch({ type: "TOGGLE_TODO", _id });
   }
 
   // Resource hook for Delete Todo
   const [todo, deleteTodo] = useResource(() => ({
-    url: "/todoList/" + id,
+    url: "/todos/" + _id,
     method: "delete",
+    headers: { Authorization: `${state.user.access_token}` },
   }));
-
-  // get dispatch from StateContext
-  const { dispatch } = useContext(StateContext);
 
   // destructure 'secondaryColor' from ThemeContext
   const { secondaryColor } = useContext(ThemeContext);
@@ -53,7 +58,7 @@ function ToDoItem({
         deleteTodo();
         dispatch({
           type: "DELETE_TODO",
-          id,
+          _id,
         });
       }}
     >
@@ -86,6 +91,5 @@ function ToDoItem({
     </form>
   );
 }
-
 
 export default React.memo(ToDoItem);

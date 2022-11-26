@@ -1,7 +1,6 @@
 // importing mongoose library after adding it as dependency in package.json file
 const mongoose = require("mongoose");
-const uri =
-  "mongodb+srv://:@cluster0.ffynzsc.mongodb.net/?retryWrites=true&w=majority";
+const uri = "";
 
 function connect() {
   const options = { useNewUrlParser: true };

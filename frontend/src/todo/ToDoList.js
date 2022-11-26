@@ -16,7 +16,7 @@ export default function ToDoList() {
     // Key = database identifier (primary key) for each element in the list
     <div>
       {ListToDo.map((t) => (
-        <ToDoItem {...t} key={t.id} />
+        <ToDoItem {...t} key={t._id} />
       ))}
     </div>
   );

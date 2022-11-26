@@ -10,7 +10,6 @@ const privateKey = "";
 const router = express.Router();
 
 router.use(function (req, res, next) {
-  console.warn("test");
   if (req.header("Authorization")) {
     try {
       req.payload = jwt.verify(req.header("Authorization"), privateKey, {
@@ -39,7 +38,7 @@ router.post("/", async function (req, res) {
     .save()
     .then((savedTodo) => {
       return res.status(201).json({
-        id: savedTodo._id,
+        _id: savedTodo._id,
         title: savedTodo.title,
         description: savedTodo.description,
         author: savedTodo.author,
@@ -61,6 +60,25 @@ router.get("/", async function (req, res, next) {
     .equals(req.payload.id)
     .exec();
   return res.status(200).json({ todoList: todoList });
+});
+
+// for delete request for '/'
+router.delete("/:id", async function (req, res, next) {
+  const todoID = req.params.id;
+  await TodoItem.findByIdAndDelete(todoID).exec();
+  return res.status(200);
+});
+
+// for put or patch request for '/'
+router.patch("/:id", async function (req, res, next) {
+  const todoID = req.params.id;
+  const newCompleted = req.body.completed;
+  const newDateCompleted = req.body.dateCompleted;
+  await TodoItem.findByIdAndUpdate(todoID, {
+    completed: newCompleted,
+    dateCompleted: newDateCompleted,
+  }).exec();
+  return res.status(200);
 });
 
 // export

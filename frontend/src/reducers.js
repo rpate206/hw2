@@ -3,9 +3,12 @@ function userReducer(state, action) {
   switch (action.type) {
     case "LOGIN":
     case "REGISTER":
-      return action.username;
+      return {
+        username: action.username,
+        access_token: action.access_token,
+      };
     case "LOGOUT":
-      return "";
+      return null;
     default:
       return state;
   }
@@ -23,7 +26,7 @@ function todoReducer(state, action) {
         dateCreated: action.dateCreated,
         completed: action.completed,
         dateCompleted: action.dateCompleted,
-        id: action.id,
+        _id: action._id,
       };
       // pre-pend newToDoItem to copy of current ToDoList array
       return [...state, newToDoItem];
@@ -31,7 +34,7 @@ function todoReducer(state, action) {
       let copyState = state.slice();
 
       let element = copyState.find((element) => {
-        return element.id === action.id;
+        return element._id === action._id;
       });
 
       // update element's DateCompleted
@@ -46,13 +49,15 @@ function todoReducer(state, action) {
 
     case "DELETE_TODO":
       const copyDeleteState = state.filter((element) => {
-        return element.id !== action.id;
+        return element._id !== action._id;
       });
 
       return copyDeleteState;
     case "FETCH_TODOS":
       return action.todoList;
-
+    // clear user posts locally upon logout
+    case "CLEAR_TODOS":
+      return [];
     default:
       return state;
   }

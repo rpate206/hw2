@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
+//import { v4 as uuidv4 } from "uuid";
 import { StateContext } from "../Contexts/StateContext";
 import { useResource } from "react-request-hook";
 
@@ -18,6 +18,7 @@ export default function CreateToDo() {
 
   // define Resource hook for created post : destructure ‘title’, ‘content’, ‘author’ fields for ‘data’  to use. Resource hook will take ‘data’ and post it to server as json
   // 'createPost' should be invoked when user clicks 'Create' button
+  // add access token -- don't send author to server since it's in jwt token
   const [todo, createTodo] = useResource(
     ({
       title,
@@ -27,12 +28,12 @@ export default function CreateToDo() {
       completed,
       dateCompleted,
     }) => ({
-      url: "/todoList",
+      url: "/todos",
       method: "post",
+      headers: { Authorization: `${state.user.access_token}` },
       data: {
         title,
         description,
-        author,
         dateCreated,
         completed,
         dateCompleted,
@@ -60,12 +61,12 @@ export default function CreateToDo() {
       dispatch({
         type: "CREATE_TODO",
         title: todo.data.title,
-        description: todo.data.title,
-        author: todo.data.author,
+        description: todo.data.description,
+        author: user.username,
         dateCreated: todo.data.dateCreated,
         completed: todo.data.completed,
         dateCompleted: todo.data.dateCompleted,
-        id: todo.data.id,
+        _id: todo.data._id,
       });
     }
   }, [todo]);
@@ -88,7 +89,7 @@ export default function CreateToDo() {
       <br />
       <br />
       <div>
-        Author: <b>{user}</b>
+        Author: <b>{user.username}</b>
       </div>
       <br />
       <div>

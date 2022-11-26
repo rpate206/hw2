@@ -63,19 +63,35 @@ function App() {
   //     .then((todoList) => dispatch({ type: "FETCH_TODOS", todoList }));
   // }, []);
 
-  // define Resource hook for requesting TodoList
+  // define Resource hook for requesting TodoList -- get all posts regardless of author
+  // const [todoList, getToDoList] = useResource(() => ({
+  //   url: "/todoList",
+  //   method: "get",
+  // }));
+
+  // define Resource hook for requesting TodoList -- get posts authored by signed in user
   const [todoList, getToDoList] = useResource(() => ({
-    url: "/todoList",
+    url: "/todos",
     method: "get",
+    headers: { Authorization: `${state?.user?.access_token}` },
   }));
 
-  // Effect hook for requesting todoList when App component loads
-  useEffect(getToDoList, []);
-
-  // Effect hook for requesting todoList when todoList variable is updated
+  // Effect hook for requesting todoList when App component loads -- invoke when user signs in (user object changes)
   useEffect(() => {
-    if (todoList && todoList.data) {
-      dispatch({ type: "FETCH_TODOS", todoList: todoList.data.reverse() });
+    if (state?.user?.access_token) {
+      getToDoList();
+    } else {
+      dispatch({ type: "CLEAR_TODOS" });
+    }
+  }, [state?.user?.access_token]);
+
+  // Effect hook for requesting todoList when todoList variable is updated -- updated useEffect to only dispatch once
+  useEffect(() => {
+    if (todoList && todoList.isLoading === false && todoList.data) {
+      dispatch({
+        type: "FETCH_TODOS",
+        todoList: todoList.data.todoList.reverse(),
+      });
     }
   }, [todoList]);
 

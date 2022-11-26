@@ -24,24 +24,39 @@ export default function Login() {
 
   // Resource hook
   const [user, login] = useResource((username, password) => ({
-    url: "/login",
+    url: "/auth/login",
     method: "post",
-    data: { email: username, password },
+    data: { username, password },
   }));
 
-  // Check if user logged in successfully with useEffect hook
+  // Check if user logged in successfully with useEffect hook -- for json server backend
+  // useEffect(() => {
+  //   // if response from server contains a user object..login successful
+  //   if (user?.data?.user) {
+  //     setLoginFailed(false);
+  //     dispatch({ type: "LOGIN", username: user.data.user.email });
+  //   }
+
+  //   if (user?.error) {
+  //     console.log(user?.error);
+  //     setLoginFailed(true);
+  //   }
+  // }, [user]);
+
+  // Check if user logged in successfully with useEffect hook -- for Express backend
   useEffect(() => {
-    // if response from server contains a user object..login successful
-    if (user?.data?.user) {
-      setLoginFailed(false);
-      dispatch({ type: "LOGIN", username: user.data.user.email });
+    if (user && user.isLoading === false && (user.data || user.error)) {
+      if (user.error) {
+        setLoginFailed(true);
+      } else {
+        setLoginFailed(false);
+        dispatch({
+          type: "LOGIN",
+          username: user.data.username,
+          access_token: user.data.access_token, // pass access token to reducer to store in app's local state
+        });
+      }
     }
-    
-    if (user?.error) {
-      console.log(user?.error);
-      setLoginFailed(true);
-    }
-    
   }, [user]);
 
   return (

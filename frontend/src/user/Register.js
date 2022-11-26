@@ -27,17 +27,31 @@ export default function Register() {
     setPasswordRepeat(event.target.value);
   }
 
+  // state hook to keep track of status of register request
+  const [status, setStatus] = useState("");
+
   // create a Resource hook to register new users
   const [user, register] = useResource((username, password) => ({
-    url: "/users",
+    url: "/auth/register",
     method: "post",
-    data: { email: username, password },
+    data: { username, password, passwordConfirmation: password },
   }));
 
-  // use useEffect hook to take action when user variable changes
+  // use useEffect hook to take action when user variable changes -- for json server backend
+  // useEffect(() => {
+  //   if (user && user.data && user.data.user.email) {
+  //     dispatch({ type: "REGISTER", username: user.data.user.email });
+  //   }
+  // }, [user]);
+
+  // use useEffect hook to take action when user variable changes -- for Express backend
   useEffect(() => {
-    if (user && user.data && user.data.user.email) {
-      dispatch({ type: "REGISTER", username: user.data.user.email });
+    if (user && user.isLoading === false && (user.data || user.error)) {
+      if (user.error) {
+        setStatus("Registration failed, please try again later.");
+      } else {
+        setStatus("Registration successful. You may now login.");
+      }
     }
   }, [user]);
 
@@ -83,6 +97,7 @@ export default function Register() {
           password !== passwordRepeat
         }
       />
+      <p>{status}</p>
     </form>
   );
 }

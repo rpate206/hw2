@@ -32,7 +32,6 @@ router.use(function (req, res, next) {
 // invoked for post request for login : responsible for login
 router.post("/login", async function (req, res, next) {
   // check if request body contains username & pw properties
-  console.warn(req.body);
   if (req.body.username && req.body.password) {
     //query user model to find one with username
     const user = await User.findOne()
@@ -49,7 +48,9 @@ router.post("/login", async function (req, res, next) {
             const token = jwt.sign({ id: user._id }, privateKey, {
               algorithm: "RS256",
             });
-            return res.status(200).json({ access_token: token }); // return jwt token
+            return res
+              .status(200)
+              .json({ username: user.username, access_token: token }); // return jwt token & username
           }
           // entered pw did not match stored db pw
           else {
