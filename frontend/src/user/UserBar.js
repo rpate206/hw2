@@ -4,7 +4,6 @@ import Login from "./Login";
 
 //import Logout from "./Logout";
 
-
 import Register from "./Register";
 
 import { StateContext } from "../Contexts/StateContext";
@@ -16,8 +15,6 @@ const Logout = React.lazy(() => import("./Logout"));
 // UserBar handles the logic on whether to display the Logout component or the Login/Register Components
 // UserBar = Parent Components ; Logout/Login/Register = Child Components
 export default function UserBar() {
-  
-
   // destructure state from StateContext
   const { state } = useContext(StateContext);
 
